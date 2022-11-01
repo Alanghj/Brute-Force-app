@@ -1,4 +1,4 @@
-# Stock Market analysis
+# Brute Force
 
 ## Overview
 * A brute-force application to get credentials of user and password in a website.
