@@ -19,57 +19,57 @@ class Brute_force_app():
 
 
     def get_username(self):
-        self.path = "wordlist/usernames/"
+        path = "wordlist/usernames/"
         print(f'\u039E' * 100)
         print(f'\n{self.validation_user}\n')
-        self.validation = input('Choose one of username options above: ')
+        validation = input('Choose one of username options above: ')
 
-        if self.validation == '0':
+        if validation == '0':
             print(f'\u039E' * 100)
             print(f'\n{self.username_list}\n')
-            self.package_chosen = input(f'Which username wordlist do you want to use: ')
+            package_chosen = input(f'Which username wordlist do you want to use: ')
             
-            for self.file in os.listdir(self.path):
-                if self.file.startswith(self.package_chosen):
-                    with open(self.path + self.file, "r", encoding="latin-1") as self.usernames:
-                        for self.username in self.usernames:
-                            self.replaced_user = self.username.replace("\n", "")
+            for file in os.listdir(path):
+                if file.startswith(package_chosen):
+                    with open(path + file, "r", encoding="latin-1") as usernames:
+                        for username in usernames:
+                            replaced_user = username.replace("\n", "")
                             self.keys["user"].append(self.replaced_user)
 
-            return self
+            return True
                             
-        if self.validation == '1':
-            self.username_input = input('\nWrite your username: ')
-            return self.keys["user"].append(self.username_input)
+        if validation == '1':
+            username_input = input('\nWrite your username: ')
+            return self.keys["user"].append(username_input)
 
         
         return self.keys["user"].append('')
 
 
     def get_password(self):
-        self.path = "wordlist/passwords/"
+        path = "wordlist/passwords/"
         print(f'\u039E' * 100) 
         print(f'\n{self.validation_pass}\n')
-        self.validation = input('Choose one of passwords options above: ')
+        validation = input('Choose one of passwords options above: ')
         
-        if self.validation == '0':
+        if validation == '0':
             print(f'\u039E' * 100) 
             print(f'\n{self.password_list}\n')
-            self.package_chosen = input(f'Which password wordlist do you want to use: ')
+            package_chosen = input(f'Which password wordlist do you want to use: ')
             print(f'\u039E' * 100)
 
-            for self.file in os.listdir(self.path):
-                if self.file.startswith(self.package_chosen):
-                    with open(self.path + self.file, "r", encoding="latin-1") as self.passwords:
-                        for self.password in self.passwords:
-                            self.replaced_pass = self.password.replace("\n", "")
+            for file in os.listdir(path):
+                if file.startswith(package_chosen):
+                    with open(path + file, "r", encoding="latin-1") as passwords:
+                        for password in passwords:
+                            replaced_pass = password.replace("\n", "")
                             self.keys["password"].append(self.replaced_pass)
 
-            return self
+            return True
         
-        if self.validation == '1':
-            self.password_input = input('\nWrite your own password: ')
-            return self.keys["password"].append(self.password_input)
+        if validation == '1':
+            password_input = input('\nWrite your own password: ')
+            return self.keys["password"].append(password_input)
 
 
         return self.keys["password"].append(''), print(f'\u039E' * 100) 
@@ -82,27 +82,27 @@ class Brute_force_app():
         if self.keys["user"] == [''] and self.keys["password"] == ['']:
             return print("\nERROR: WITHOUT {USER} AND {PASSWORD}!!!")
         
-        for self.position in range(len(self.keys["user"]) + len(self.keys["password"])):
+        for position in range(len(self.keys["user"]) + len(self.keys["password"])):
             if len(self.keys["user"]) > 1 and len(self.keys["password"]) > 1:
-                with concurrent.futures.ThreadPoolExecutor() as self.executor:
-                    self.executor.map(self.handle.get_credentials(self.keys["user"][self.position], self.keys["password"][self.position]))
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    executor.map(self.handle.get_credentials(self.keys["user"][position], self.keys["password"][position]))
 
             if len(self.keys["user"]) == 1:
-                with concurrent.futures.ThreadPoolExecutor() as self.executor:
-                    self.executor.map(self.handle.get_credentials(self.keys["user"][0], self.keys["password"][self.position - 1]))
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    executor.map(self.handle.get_credentials(self.keys["user"][0], self.keys["password"][position - 1]))
 
             elif len(self.keys["password"]) == 1:
-                with concurrent.futures.ThreadPoolExecutor() as self:
-                    self.map(self.handle.get_credentials(self.keys["user"][self.position - 1], self.keys["password"][0]))
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    executor.map(self.handle.get_credentials(self.keys["user"][position - 1], self.keys["password"][0]))
 
             elif len(self.keys['user']) == 1 and len(self.keys['password']) == 1:
-                with concurrent.futures.ThreadPoolExecutor() as self.executor:
-                    self.executor.map(self.handle.get_credentials(self.keys["user"][0], self.keys["password"][0]))
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    executor.map(self.handle.get_credentials(self.keys["user"][0], self.keys["password"][0]))
 
 
     def get_time(self):
-        self.end_time = time.perf_counter()
-        return print(f'\n\nFinished in {round(self.end_time - self.start_time, 2)} second(s)\n')
+        end_time = time.perf_counter()
+        return print(f'\n\nFinished in {round(end_time - self.start_time, 2)} second(s)\n')
 
 
     def start_brute_force(self):
@@ -110,5 +110,3 @@ class Brute_force_app():
         self.get_password()
         self.start_thread()
         self.get_time()
-
-        return self 
